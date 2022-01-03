@@ -2,14 +2,7 @@
 #include <stdint.h>
 
 
-int main()
-{
-    printf("Hello World");
-    uint8_t k = 2;
-    printf("%d",k);
-    return 0;
-}
-#define Q_SIZE 256
+#define Q_SIZE 1024
 
 #if Q_SIZE > 256
 typedef struct{
@@ -25,14 +18,15 @@ typedef struct{
 }CirQueue;
 #endif
 
-uint8_t isEmpty(CirQueue* q){
-  if((q->rear - q->front)>0){
-    return 1;//not empty
+uint16_t nofComponent(CirQueue* q){
+  if((q->rear > q->front)){
+    return (q->rear - q->front);//non zero
+  }else{
+    return (Q_SIZE + q->rear - q->front);// include zero
   }
-  return 0;// empty
 }
 uint8_t isFull(CirQueue* q){
-  if(((q.rear +1)%Q_SIZE) != q.front){
+  if(((q->rear +1)%Q_SIZE) != q->front){
     return 1;//not full
   }
   return 0;//full
@@ -40,9 +34,22 @@ uint8_t isFull(CirQueue* q){
 void pushQueue(CirQueue* q,uint8_t num)
 {
   q->rear = (q->rear+1) % Q_SIZE;
-  circular_Queue[q->rear]=num;
+  q->buf[q->rear]=num;
 }
 uint8_t popQueue(CirQueue* q){
   q->front = (q->front+1) % Q_SIZE;
-  return circular_Queue[q->front];
+  return q->buf[q->front];
+}
+
+CirQueue mq={0,};
+uint8_t msg[] = "OK";
+int main()
+{
+    printf("Hello World");
+    uint16_t k = 2;
+    for(k=0;k<Q_SIZE;k++){
+        printf("%d\r\n",nofComponent(&mq));
+        pushQueue(&mq,(uint8_t)k&0xFF);
+    }
+    return 0;
 }
