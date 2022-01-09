@@ -2,7 +2,10 @@
 #include <stdint.h>
 
 const uint8_t OK_MSG[] = "OK";
-uint8_t arr[] = "asonwosmldO KshuOqnwjKa!@#ZXC<>)<";
+uint8_t test_arr1[] = "asonwosmldO KshuOqnwjKa!@#ZXC<>)<";
+uint8_t test_arr2[] = "asonwosmldshuOqnwjKa!@#ZXC<>OK";
+uint8_t test_arr3[] = "asonwosmldOKshuOqnwjKa!@#ZXC<>)<";
+uint8_t test_arr4[] = "OKonwosmldO<>)<";
 
 uint8_t strCmp(void* target, const void* stringArray, uint16_t searchSize, uint16_t targetSize){
   uint8_t* tar  = target;
@@ -38,9 +41,27 @@ uint8_t strCmp(void* target, const void* stringArray, uint16_t searchSize, uint1
 }
 int main()
 {
-    printf("Hello World");
+    printf("Hello World\r\n");
     uint8_t k = 2;
-    k=strCmp(OK_MSG,arr,sizeof(arr),2);
-    printf("%d",k);
+    k=strCmp(OK_MSG,test_arr1,sizeof(test_arr1),2);// not found
+    printf("CASE 1 :%d\r\n",k);
+    k=strCmp(OK_MSG,test_arr2,sizeof(test_arr2),2);
+    printf("CASE 2 :%d\r\n",k);
+    k=strCmp(OK_MSG,test_arr3,sizeof(test_arr3),2);
+    printf("CASE 3 :%d\r\n",k);
+    k=strCmp(OK_MSG,test_arr4,sizeof(test_arr4),2);
+    printf("CASE 4 :%d\r\n",k);
+    k=strCmp(OK_MSG,test_arr2,sizeof(test_arr2)-2,2);// not found
+    printf("CASE 5 :%d\r\n",k);
+    k=strCmp(OK_MSG,test_arr2,sizeof(test_arr2),0);// not found
+    printf("CASE 6 :%d\r\n",k);
+    k=strCmp(OK_MSG,0,sizeof(test_arr2),0);// compile Error
+    printf("CASE 7 :%d\r\n",k);
+    k=strCmp(OK_MSG,test_arr2,sizeof(test_arr2),3);
+    printf("CASE 8 :%d\r\n",k);
+    k=strCmp(0,test_arr2,sizeof(test_arr2),3);
+    printf("CASE 9 :%d\r\n",k);
+    k=strCmp(OK_MSG,test_arr2,0,2);// not found
+    printf("CASE 10 :%d\r\n",k);
     return 0;
 }

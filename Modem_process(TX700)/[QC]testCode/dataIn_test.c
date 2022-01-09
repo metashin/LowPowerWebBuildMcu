@@ -2,6 +2,7 @@
 #include <stdint.h>
 
 
+uint8_t msg[] = "OK";
 int main()
 {
     printf("Hello World");
